@@ -70,3 +70,9 @@ packages/prisma-client/src/__generated__
 
 # copilot instructions
 .github/instructions
+
+# direnv local cache
+.direnv/
+
+# machine-specific Claude skill symlinks (absolute paths, not portable)
+.claude/

@@ -1,0 +1,10 @@
+WEBSTUDIO
+
+  rmenv      wipe deps + build/cache dirs (forces a fresh install)
+  install    install deps + build packages vite.config.ts needs
+  run        boot docker (postgres + postgrest) + DB, start the builder
+  gitupdate  sync fork from upstream (ff main mirror, rebase mryan work branch)
+
+Node 22 is auto-activated in this directory via direnv (.envrc).
+Builder runs at https://wstd.dev:5173  (DEV_LOGIN=true — no OAuth needed).
+Requires wstd.dev + vite.wstd.dev in /etc/hosts -> 127.0.0.1.
