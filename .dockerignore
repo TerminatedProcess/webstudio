@@ -1,0 +1,11 @@
+# Keep the build context small; deps + build outputs are regenerated in-image.
+# NOTE: do NOT ignore __generated__ — 241 committed generated files are build inputs.
+**/node_modules
+**/lib
+apps/builder/build
+apps/*/build
+**/.vite
+.direnv
+.git
+https
+*.log

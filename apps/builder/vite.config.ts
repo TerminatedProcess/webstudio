@@ -41,7 +41,11 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [
       remix({
-        presets: [vercelPreset()],
+        // vercelPreset emits a Vercel-specific server layout
+        // (build/server/nodejs-<hash>/index.js) that `remix-serve` can't run.
+        // Keep it for Vercel builds (VERCEL is set there); omit it elsewhere so
+        // self-hosting produces a standard build/server/index.js.
+        presets: process.env.VERCEL ? [vercelPreset()] : [],
         future: {
           v3_lazyRouteDiscovery: false,
           v3_relativeSplatPath: false,
@@ -144,10 +148,17 @@ export default defineConfig(({ mode }) => {
           ws: true,
         },
       },
-      https: {
-        key: readFileSync("../../https/privkey.pem"),
-        cert: readFileSync("../../https/fullchain.pem"),
-      },
+      // Dev-only TLS. This block is evaluated even for `vite:build`, so guard
+      // the cert reads — self-host/CI builds have no local certs (and don't
+      // use the dev server anyway; production runs via remix-serve).
+      ...(existsSync("../../https/privkey.pem")
+        ? {
+            https: {
+              key: readFileSync("../../https/privkey.pem"),
+              cert: readFileSync("../../https/fullchain.pem"),
+            },
+          }
+        : {}),
       cors: ((
         req: IncomingMessage,
         callback: (error: Error | null, options: CorsOptions | null) => void
