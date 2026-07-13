@@ -9,7 +9,13 @@
 #   - DB name/user are non-secret literals below.
 services:
   db:
-    image: postgres:16
+    # Schema is baked into the image (see postgres.Dockerfile) rather than
+    # bind-mounted: Coolify doesn't check the repo out at the compose runtime
+    # dir, so a relative bind-mount would resolve to an empty dir and never
+    # bootstrap. initdb still runs it only on a fresh (empty) data volume.
+    build:
+      context: .
+      dockerfile: apps/builder/postgres.Dockerfile
     restart: unless-stopped
     environment:
       POSTGRES_DB: webstudio
@@ -17,9 +23,6 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - db-data:/var/lib/postgresql/data
-      # First-boot bootstrap: postgres runs *.sql in this dir only when the data
-      # dir is empty, so the schema snapshot seeds a fresh volume once.
-      - ./apps/builder/e2e/schema/current.sql:/docker-entrypoint-initdb.d/00-schema.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U webstudio -d webstudio"]
       interval: 2s
