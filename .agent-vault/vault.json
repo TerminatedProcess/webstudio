@@ -8,6 +8,11 @@
     "coolify-api-token": {
       "value": "c32a07b460d677b3313b26db:7610472708300de7aa8d859668cd21e9:1a031fdfcb299c21466ca0cf0ada6fa2b1959baa8fb4f06565921bb4fbc1ca7ed4d4a4aa38df43bb518f9a3bb4776516406b",
       "createdAt": "2026-07-13T18:46:04.348Z"
+    },
+    "webstudio-auth-secret": {
+      "value": "4bc25fd5210e63abe4653440:11add192c92ea1c78aa71483d7e093ed:b653bb57",
+      "desc": "Dev-login AUTH_SECRET for webstudio.divergentdevs.com (Coolify self-host)",
+      "createdAt": "2026-07-19T00:53:44.469Z"
     }
   }
 }
